@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Praktix</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; color: #333; }
+
+  nav {
+    background: #1a1a2e;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  nav h1 { color: white; font-size: 1.3rem; }
+  nav h1 span { color: #e94560; }
+  nav a { color: rgba(255,255,255,0.8); text-decoration: none; margin-left: 1.5rem; font-size: 0.9rem; }
+
+  .hero {
+    background: #1a1a2e;
+    color: white;
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+  .hero h2 { font-size: 2rem; margin-bottom: 1rem; }
+  .hero p { color: rgba(255,255,255,0.7); margin-bottom: 1.5rem; }
+  .hero button { background: #e94560; color: white; border: none; padding: 0.8rem 2rem; border-radius: 6px; font-size: 1rem; cursor: pointer; }
+
+  section { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
+  section h2 { font-size: 1.4rem; margin-bottom: 1.5rem; border-left: 4px solid #e94560; padding-left: 0.75rem; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+
+  .card { background: white; border-radius: 8px; padding: 1.25rem; border: 1px solid #ddd; }
+  .card .tag { font-size: 0.75rem; color: #e94560; font-weight: bold; margin-bottom: 0.4rem; }
+  .card h3 { font-size: 1rem; margin-bottom: 0.4rem; }
+  .card p { font-size: 0.85rem; color: #666; margin-bottom: 0.75rem; line-height: 1.5; }
+  .card .meta { display: flex; justify-content: space-between; font-size: 0.85rem; color: #444; margin-bottom: 0.75rem; }
+  .card .price { font-weight: bold; }
+  .card button { background: #e94560; color: white; border: none; padding: 0.4rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
+
+  form { background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #ddd; max-width: 500px; }
+  form label { display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 0.3rem; margin-top: 0.8rem; }
+  form input, form select, form textarea {
+    width: 100%; padding: 0.6rem; border: 1px solid #ccc; border-radius: 4px;
+    font-size: 0.9rem; font-family: inherit;
+  }
+  form textarea { height: 80px; resize: vertical; }
+  form button { margin-top: 1rem; background: #e94560; color: white; border: none; padding: 0.7rem 1.5rem; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
+
+  .message { padding: 0.75rem; border-radius: 4px; margin-top: 1rem; font-size: 0.85rem; display: none; }
+  .message.success { background: #d4edda; color: #155724; }
+  .message.error { background: #f8d7da; color: #721c24; }
+
+  footer { text-align: center; padding: 2rem; color: #888; font-size: 0.85rem; margin-top: 2rem; border-top: 1px solid #ddd; }
+</style>
+</head>
+<body>
+
+<nav>
+  <h1>Prakt<span>ix</span></h1>
+  <div>
+    <a href="#programs">Programs</a>
+    <a href="#experts">Experts</a>
+    <a href="#apply">Apply</a>
+    <a href="#employers">For Employers</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h2>Build Your Tech Career with Real Experts</h2>
+  <p>Hands-on programs in AI, development, cybersecurity, and more.</p>
+  <button onclick="document.getElementById('programs').scrollIntoView({behavior:'smooth'})">Browse Programs</button>
+</div>
+
+<section id="programs">
+  <h2>Programs</h2>
+  <div class="grid" id="programs-list">Loading...</div>
+</section>
+
+<section id="experts">
+  <h2>Our Experts</h2>
+  <div class="grid" id="experts-list">Loading...</div>
+</section>
+
+<section id="apply">
+  <h2>Apply to a Program</h2>
+  <form onsubmit="submitApplication(event)">
+    <label>Full Name</label>
+    <input type="text" id="app-name" required placeholder="Your full name" />
+
+    <label>Email</label>
+    <input type="email" id="app-email" required placeholder="your@email.com" />
+
+    <label>Phone</label>
+    <input type="tel" id="app-phone" required placeholder="+355 69 000 0000" />
+
+    <label>Select Program</label>
+    <select id="app-program" required>
+      <option value="">Choose a program...</option>
+    </select>
+
+    <label>CV Link (Google Drive / Dropbox)</label>
+    <input type="url" id="app-cv" placeholder="https://drive.google.com/..." />
+
+    <button type="submit">Submit Application</button>
+    <div class="message" id="app-msg"></div>
+  </form>
+</section>
+
+<section id="employers">
+  <h2>For Employers</h2>
+  <form onsubmit="submitEmployerRequest(event)">
+    <label>Company Name</label>
+    <input type="text" id="emp-company" required placeholder="Your company" />
+
+    <label>Contact Person</label>
+    <input type="text" id="emp-contact" required placeholder="Full name" />
+
+    <label>Email</label>
+    <input type="email" id="emp-email" required placeholder="contact@company.com" />
+
+    <label>Request Type</label>
+    <select id="emp-type">
+      <option value="internship">Internship</option>
+      <option value="hiring">Hiring</option>
+      <option value="corporate_training">Corporate Training</option>
+      <option value="ai_workshop">AI Workshop</option>
+    </select>
+
+    <label>Message</label>
+    <textarea id="emp-message" required placeholder="Tell us what you need..."></textarea>
+
+    <button type="submit">Send Request</button>
+    <div class="message" id="emp-msg"></div>
+  </form>
+</section>
+
+<footer>Praktix &copy; 2024 — Albanian Tech Education Platform</footer>
+
+<script>
+  const API = 'https://praktix-backend-production.up.railway.app/api';
+
+  async function loadPrograms() {
+    const res = await fetch(API + '/programs');
+    const data = await res.json();
+    const programs = data.data || data;
+
+    const select = document.getElementById('app-program');
+    let html = '';
+
+    programs.forEach(p => {
+      html += `
+        <div class="card">
+          <div class="tag">${p.category}</div>
+          <h3>${p.title}</h3>
+          <p>${p.description.substring(0, 100)}...</p>
+          <div class="meta">
+            <span class="price">€${parseFloat(p.price).toLocaleString()}</span>
+            <span>${p.duration}</span>
+          </div>
+          <button onclick="applyTo(${p.id})">Apply</button>
+        </div>`;
+
+      const opt = document.createElement('option');
+      opt.value = p.id;
+      opt.textContent = p.title;
+      select.appendChild(opt);
+    });
+
+    document.getElementById('programs-list').innerHTML = html;
+  }
+
+  async function loadExperts() {
+    const res = await fetch(API + '/experts');
+    const experts = await res.json();
+    let html = '';
+    experts.forEach(e => {
+      html += `
+        <div class="card">
+          <div class="tag">${e.specialization}</div>
+          <h3>${e.name}</h3>
+          <p>${e.title} — ${e.experience} years experience</p>
+          <p>${e.bio.substring(0, 100)}...</p>
+        </div>`;
+    });
+    document.getElementById('experts-list').innerHTML = html;
+  }
+
+  function applyTo(id) {
+    document.getElementById('app-program').value = id;
+    document.getElementById('apply').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  async function submitApplication(e) {
+    e.preventDefault();
+    const msg = document.getElementById('app-msg');
+
+    const body = {
+      full_name: document.getElementById('app-name').value,
+      email: document.getElementById('app-email').value,
+      phone: document.getElementById('app-phone').value,
+      program_id: parseInt(document.getElementById('app-program').value),
+      cv_url: document.getElementById('app-cv').value || null
+    };
+
+    const res = await fetch(API + '/applications', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    if (res.ok) {
+      msg.className = 'message success';
+      msg.textContent = 'Application submitted! We will contact you soon.';
+      msg.style.display = 'block';
+      e.target.reset();
+    } else {
+      msg.className = 'message error';
+      msg.textContent = 'Something went wrong. Please try again.';
+      msg.style.display = 'block';
+    }
+  }
+
+  async function submitEmployerRequest(e) {
+    e.preventDefault();
+    const msg = document.getElementById('emp-msg');
+
+    const body = {
+      company_name: document.getElementById('emp-company').value,
+      contact_person: document.getElementById('emp-contact').value,
+      email: document.getElementById('emp-email').value,
+      request_type: document.getElementById('emp-type').value,
+      message: document.getElementById('emp-message').value
+    };
+
+    const res = await fetch(API + '/employer-requests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    if (res.ok) {
+      msg.className = 'message success';
+      msg.textContent = 'Request sent! Our team will reach out within 24 hours.';
+      msg.style.display = 'block';
+      e.target.reset();
+    } else {
+      msg.className = 'message error';
+      msg.textContent = 'Something went wrong. Please try again.';
+      msg.style.display = 'block';
+    }
+  }
+
+  loadPrograms();
+  loadExperts();
+</script>
+</body>
+</html>
