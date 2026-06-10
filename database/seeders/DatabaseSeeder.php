@@ -14,12 +14,13 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // ── Admin ──────────────────────────────────────────────────────────────
-        Admin::create([
-            'name'     => 'Praktix Admin',
-            'email'    => 'admin@praktix.al',
-            'password' => Hash::make('praktix2024'),
-        ]);
+        Admin::firstOrCreate(
+    ['email' => 'admin@praktix.al'],
+    [
+        'name'     => 'Praktix Admin',
+        'password' => Hash::make('praktix2024'),
+    ]
+);
 
         // ── Experts ────────────────────────────────────────────────────────────
         $experts = [
